@@ -33,6 +33,12 @@ export default function Authenticated({
                 >
                   Dashboard
                 </NavLink>
+                <NavLink
+                  href={route("feature.index")}
+                  active={route().current("feature.index")}
+                >
+                  Features
+                </NavLink>
               </div>
             </div>
 
@@ -130,6 +136,12 @@ export default function Authenticated({
             >
               Dashboard
             </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("feature.index")}
+              active={route().current("feature.index")}
+            >
+              Features
+            </ResponsiveNavLink>
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -166,7 +178,11 @@ export default function Authenticated({
         </header>
       )}
 
-      <main>{children}</main>
+      <div className="py-12">
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <main>{children}</main>
+        </div>
+      </div>
     </div>
   );
 }
