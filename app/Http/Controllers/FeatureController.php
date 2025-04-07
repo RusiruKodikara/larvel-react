@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FeatureController extends Controller
@@ -36,7 +37,7 @@ class FeatureController extends Controller
             'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
         ]);
-        $data['user_id'] = auth()->id;
+        $data['user_id'] = Auth::user()->id;
 
         Feature::create($data);
 
@@ -48,7 +49,7 @@ class FeatureController extends Controller
      */
     public function show(Feature $feature)
     {
-        return Inertia::render('Feature/Show', [new FeatureResource($feature)]);
+        return Inertia::render('Feature/Show', ['feature' => new FeatureResource($feature)]);
     }
 
     /**
