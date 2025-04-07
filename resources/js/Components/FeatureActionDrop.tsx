@@ -1,11 +1,17 @@
 import { Feature } from "@/types";
 import Dropdown from "./Dropdown";
+import { usePage } from "@inertiajs/react";
+import { can } from "@/helpers";
 
 export default function FeatureActionsDropdown({
   feature,
 }: {
   feature: Feature;
 }) {
+  const user = usePage().props.auth.user;
+  if (!can(user, "manage_feattures")) {
+    return;
+  }
   return (
     <Dropdown>
       <Dropdown.Trigger>

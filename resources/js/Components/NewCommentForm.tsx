@@ -1,10 +1,21 @@
 import { Feature } from "@/types";
 import PrimaryButton from "./PrimaryButton";
 import TextAreaInput from "./TextAreaInput";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
+import { can } from "@/helpers";
 
 export default function NewCommentForm({ feature }: { feature: Feature }) {
+  const user = usePage().props.auth.user;
+
+  if (!can(user, "manage_comments")) {
+    return (
+      <div className="text-center text-gray-600">
+        You don't have permission to leave comments
+      </div>
+    );
+  }
+
   const { data, setData, post, processing } = useForm({
     comment: "",
   });
@@ -20,7 +31,10 @@ export default function NewCommentForm({ feature }: { feature: Feature }) {
   };
 
   return (
-    <form onSubmit={createComment} className="flex items-center py-2 mb-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+    <form
+      onSubmit={createComment}
+      className="flex items-center py-2 mb-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+    >
       <TextAreaInput
         rows={1}
         value={data.comment}
