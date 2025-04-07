@@ -14,7 +14,7 @@ class FeatureController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Feature/Index',[
+        return Inertia::render('Feature/Index', [
             'features' => FeatureResource::collection(Feature::latest()->paginate())
         ]);
     }
@@ -24,7 +24,7 @@ class FeatureController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Feature/Create');
     }
 
     /**
@@ -32,7 +32,15 @@ class FeatureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+        $data['user_id'] = auth()->id;
+
+        Feature::create($data);
+
+        return to_route('feature.index')->with('success', 'Feature created successfully.');
     }
 
     /**
@@ -40,7 +48,7 @@ class FeatureController extends Controller
      */
     public function show(Feature $feature)
     {
-        //
+        return Inertia::render('Feature/Show', [new FeatureResource($feature)]);
     }
 
     /**
@@ -48,7 +56,9 @@ class FeatureController extends Controller
      */
     public function edit(Feature $feature)
     {
-        //
+        return Inertia::render('Feature/Edit', [
+            'feature' => new FeatureResource($feature)
+        ]);
     }
 
     /**
@@ -56,7 +66,14 @@ class FeatureController extends Controller
      */
     public function update(Request $request, Feature $feature)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $feature->update($data);
+
+        return to_route('feature.index')->with('success', 'Feature updated successfully.');
     }
 
     /**
@@ -64,6 +81,8 @@ class FeatureController extends Controller
      */
     public function destroy(Feature $feature)
     {
-        //
+        $feature->delete();
+
+        return to_route('feature.index')->with('success', 'Feature deleted successfully.');
     }
 }
