@@ -4,6 +4,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
+import { can } from "@/helpers";
 
 export default function Authenticated({
   header,
@@ -39,6 +40,12 @@ export default function Authenticated({
                 >
                   Features
                 </NavLink>
+                {can(user,'manage_users') && <NavLink
+                  href={route("user.index")}
+                  active={route().current("user.index")}
+                >
+                  Users
+                </NavLink>}
               </div>
             </div>
 
@@ -142,6 +149,12 @@ export default function Authenticated({
             >
               Features
             </ResponsiveNavLink>
+            {can(user,'manage_users') && <ResponsiveNavLink
+              href={route("user.index")}
+              active={route().current("user.index")}
+            >
+              Users
+            </ResponsiveNavLink>}
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
