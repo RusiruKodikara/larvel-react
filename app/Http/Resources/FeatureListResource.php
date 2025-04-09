@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthUserResource extends JsonResource
+class FeatureListResource extends JsonResource
 {
     public static $wrap = false;
     /**
@@ -18,13 +18,12 @@ class AuthUserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
+            'description' => $this->description,
+            'user' => new UserResource($this->user),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'permissions' => $this->getAllPermissions()->map(function ($permission) {
-                return $permission->name;
-            }),
-            'roles' => $this->getRoleNames()
+            'upvote_count' => $this->upvote_count ?: 0,
+            'user_has_upvoted' => (bool)$this->user_has_upvoted,
+            'user_has_downvoted' => (bool)$this->user_has_downvoted,
         ];
     }
 }

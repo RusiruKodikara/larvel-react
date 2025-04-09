@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Feature extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['name', 'description', 'user_id'];
 
     public function upvotes(): HasMany
@@ -19,7 +19,7 @@ class Feature extends Model
     }
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
     }
     public function user(): BelongsTo
     {
